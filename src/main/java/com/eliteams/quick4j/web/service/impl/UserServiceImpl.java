@@ -61,4 +61,9 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long> implements U
         return list.get(0);
     }
 
+    @Override
+    public int register(User model){
+        return userMapper.insert(model);
+    }
+
 }

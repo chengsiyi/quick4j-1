@@ -5,12 +5,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import com.alibaba.druid.support.logging.Log;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +25,7 @@ import com.eliteams.quick4j.web.model.User;
 import com.eliteams.quick4j.web.security.PermissionSign;
 import com.eliteams.quick4j.web.security.RoleSign;
 import com.eliteams.quick4j.web.service.UserService;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户控制器
@@ -34,7 +39,7 @@ public class UserController {
 
     @Resource
     private UserService userService;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     /**
      * 用户登录
      * 
@@ -98,10 +103,17 @@ public class UserController {
     /**
      * 基于权限标识的权限控制案例
      */
+
+    @RequestMapping(value = "/toAdd")
+    public ModelAndView toAdd(){
+        LOGGER.info("跳转到添加用户页面");
+        return new ModelAndView("/pages/register.jsp");
+    }
     @RequestMapping(value = "/create")
     @ResponseBody
     @RequiresPermissions(value = PermissionSign.USER_CREATE)
-    public String create() {
-        return "拥有user:create权限,能访问";
+    public String create(User user) {
+        userService.register(user);
+        return "index";
     }
 }

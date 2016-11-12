@@ -26,4 +26,6 @@ public interface UserService extends GenericService<User, Long> {
      * @return
      */
     User selectByUsername(String username);
+
+    int register(User user);
 }

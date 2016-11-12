@@ -45,7 +45,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <link href="assets/css/pages/login-soft.css" rel="stylesheet" type="text/css"/>
 <link href="assets/css/custom.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="assets/app/img/favicon.ico"/>
+<link rel="shortcut icon" href="app/img/favicon.ico"/>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -122,7 +122,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	</form>
 	<!-- END FORGOT PASSWORD FORM -->
 	<!-- BEGIN REGISTRATION FORM -->
-	<form class="register-form" action="index.html" method="post">
+	<form class="register-form" action="rest/user/create" method="post">
 		<h3>注  册</h3>
 		<p>
 			 请输入您的个人信息:
