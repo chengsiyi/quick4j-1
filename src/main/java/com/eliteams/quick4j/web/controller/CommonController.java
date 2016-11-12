@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2014年4月15日 下午4:16:34
  **/
 @Controller
+@RequestMapping(value = "/home")
 public class CommonController {
     /**
      * 首页
@@ -18,7 +19,7 @@ public class CommonController {
      * @param request
      * @return
      */
-    @RequestMapping("index")
+    @RequestMapping("/index")
     public String index(HttpServletRequest request) {
         return "index";
     }

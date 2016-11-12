@@ -2,6 +2,7 @@ package com.eliteams.quick4j.web.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.shiro.SecurityUtils;
@@ -42,12 +43,14 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@Valid User user, BindingResult result, Model model, HttpServletRequest request) {
+    public String login(@Valid User user, BindingResult result, Model model, HttpServletRequest request,HttpServletResponse response) {
         try {
             Subject subject = SecurityUtils.getSubject();
+            String cpath=request.getContextPath();
             // 已登陆则 跳到首页
             if (subject.isAuthenticated()) {
-                return "redirect:/";
+                response.sendRedirect(cpath+"/rest/home/index");
+                return null;
             }
             if (result.hasErrors()) {
                 model.addAttribute("error", "参数错误！");
@@ -58,12 +61,13 @@ public class UserController {
             // 验证成功在Session中保存用户信息
             final User authUserInfo = userService.selectByUsername(user.getUsername());
             request.getSession().setAttribute("userInfo", authUserInfo);
-        } catch (AuthenticationException e) {
+            response.sendRedirect(cpath+"/rest/home/index");
+            return null;
+        } catch (Exception e) {
             // 身份验证失败
             model.addAttribute("error", "用户名或密码错误 ！");
             return "login";
         }
-        return "redirect:/";
     }
 
     /**
