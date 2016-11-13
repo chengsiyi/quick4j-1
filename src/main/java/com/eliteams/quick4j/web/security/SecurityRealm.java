@@ -48,13 +48,13 @@ public class SecurityRealm extends AuthorizingRealm {
         final List<Role> roleInfos = roleService.selectRolesByUserId(user.getId());
         for (Role role : roleInfos) {
             // 添加角色
-            System.err.println(role);
+            System.out.println(role);
             authorizationInfo.addRole(role.getRoleSign());
 
             final List<Permission> permissions = permissionService.selectPermissionsByRoleId(role.getId());
             for (Permission permission : permissions) {
                 // 添加权限
-                System.err.println(permission);
+                System.out.println(permission);
                 authorizationInfo.addStringPermission(permission.getPermissionSign());
             }
         }
@@ -73,8 +73,7 @@ public class SecurityRealm extends AuthorizingRealm {
         if (authentication == null) {
             throw new AuthenticationException("用户名或密码错误.");
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, getName());
-        return authenticationInfo;
+        return new SimpleAuthenticationInfo(username, password, getName());
     }
 
 }

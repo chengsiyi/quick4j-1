@@ -105,9 +105,8 @@ public class UserController {
      */
 
     @RequestMapping(value = "/toAdd")
-    public ModelAndView toAdd(){
-        LOGGER.info("跳转到添加用户页面");
-        return new ModelAndView("/pages/register.jsp");
+    public String toAdd(){
+        return "/pages/register";
     }
     @RequestMapping(value = "/create")
     @ResponseBody
