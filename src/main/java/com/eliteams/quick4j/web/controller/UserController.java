@@ -1,14 +1,17 @@
 package com.eliteams.quick4j.web.controller;
 
+import com.eliteams.quick4j.web.model.User;
+import com.eliteams.quick4j.web.security.PermissionSign;
+import com.eliteams.quick4j.web.security.RoleSign;
+import com.eliteams.quick4j.web.service.UserService;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import com.alibaba.druid.support.logging.Log;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -21,11 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.eliteams.quick4j.web.model.User;
-import com.eliteams.quick4j.web.security.PermissionSign;
-import com.eliteams.quick4j.web.security.RoleSign;
-import com.eliteams.quick4j.web.service.UserService;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户控制器
@@ -97,7 +95,12 @@ public class UserController {
     @ResponseBody
     @RequiresRoles(value = RoleSign.ADMIN)
     public String admin() {
-        return "拥有admin角色,能访问";
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.hasRole("admin")){
+            return "拥有admin角色,能访问";
+        }else {
+            return "不是admin角色，不能访问";
+        }
     }
 
     /**
